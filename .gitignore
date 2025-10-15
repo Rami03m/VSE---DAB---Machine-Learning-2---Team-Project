@@ -1,0 +1,18 @@
+# data & artifacts
+data/*
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+outputs/**
+!.gitkeep
+
+# notebooks
+*.ipynb_checkpoints/
+
+# python cache
+__pycache__/
+*.py[cod]
+
+# OS cruft
+.DS_Store
+Thumbs.db

@@ -1,0 +1,44 @@
+# Single source of truth for paths, splits, model hyperparams, and business constants
+
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  outputs_dir: "outputs"
+  models_dir: "outputs/models"
+  metrics_dir: "outputs/metrics"
+  figures_dir: "outputs/figures"
+
+data:
+  target: "OU25"         # created from FTHG+FTAG (Under=0/1/2 goals → 0; Over=≥3 goals → 1)
+  markets: ["england", "spain", "germany", "italy", "france"]  # adjust as needed
+  seasons: ["2324", "2425"]  # example; match the folders you actually have
+  test_size: 0.20
+  val_size: 0.10
+  random_state: 42
+
+modeling:
+  baseline_features:
+    - "Div"
+    - "HomeTeam"
+    - "AwayTeam"
+    - "FTHG"   # be careful with leakage; prefer to *exclude* post-match stats in training sets
+    - "FTAG"
+    - "FTR"
+  # In practice, baseline should use **pre-match** info only; keep as placeholder and adjust in notebooks.
+  classifier: "logreg"   # options: logreg, rf, xgb (if you add it)
+  logreg:
+    C: 1.0
+    max_iter: 1000
+
+business:
+  # Parameters for margin decomposition and demand function. Verify with assignment brief.
+  m_operations: 0.03     # fixed ops margin
+  k: 0.30                 # risk coefficient for m_risk(A) = k*(1-A)
+  alpha: 1000             # demand scale
+  epsilon: 3.0            # price elasticity (>1)
+  b: 12.0                 # average bet size in USD (or your unit)
+
+serialization:
+  save_models: true
+  save_metrics: true
+  save_figures: true
